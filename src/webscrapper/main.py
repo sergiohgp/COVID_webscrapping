@@ -7,7 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import time
 
 options = Options()
 options.headless = True
@@ -55,26 +54,8 @@ def find_country_data():
         for country in countries_list:
             print(country.display())
 
-        # print(chunks)
-        # print(country_table_found[3].text.split(' '))
-
-        # country_found = WebDriverWait(driver, 10).until(
-        #     EC.presence_of_element_located((By.CLASS_NAME, 'pH8O4c'))
-        # )
-
-        # for country in country_found:
-
-        # country_found.click()
-        # driver.back()
-
     finally:
-        # pass
-        # time.sleep(5)
         driver.quit()
-
-
-# for country in countries:
-#     find_country_data(country)
 
 
 find_country_data()
