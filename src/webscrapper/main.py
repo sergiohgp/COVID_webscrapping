@@ -1,15 +1,15 @@
 from os import name
+from sys import api_version
 from selenium import webdriver
-from selenium.webdriver.common import action_chains
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
-# from country import Country
 import requests
+import pymongo
+from bson.objectid import ObjectId
 
 options = Options()
 options.headless = True
@@ -24,24 +24,47 @@ driver.get(
 
 actions = ActionChains(driver)
 
-country_name = 'canada'
+# Connect to mongodb
+client = pymongo.MongoClient('mongodb://localhost:27017/')
+if client:
+    DB = client['termproject']
+
+
+def insert_documents_into_countries_country(document):
+    col = DB['countries_country']
+    if col:
+        document_exists = col.find_one({'name': document['name']})
+        if document_exists:
+            col.delete_one({'name': document['name']})
+
+        col.update_one(document, {'$set': document}, upsert=True)
+        # col.insert_one(document)
+
+
+def insert_documents_into_countries_covid_cases(document):
+    col = DB['countries_covid_cases']
+    if col:
+        document_exists = col.find_one(
+            {'country_name': document['country_name']})
+        if document_exists:
+            col.delete_one({'country_name': document['country_name']})
+
+        col.update_one(document, {'$set': document}, upsert=True)
+        # col.insert_one(document)
 
 
 def api_get(country_name):
     try:
         res = requests.get(
-            f'https://restcountries.eu/rest/v2/name/{country_name}')
+            f'https://restcountries.eu/rest/v2/name/{country_name}').json()
 
-        for country in res.json():
-            if not isinstance(country, str):
-                return country['name'], country['area'], country['population'], country['flag']
-                # print('Name: ' + country['name'])
-                # print('Area: ' + str(country['area']))
-                # print('Population: ' + str(country['population']))
-                # print('Flag Link: ' + country['flag'])
-                # print()
+        if type(res) is list:
+            if len(res) > 1:
+                return res[1]['population'], res[1]['flag'], res[1]['area']
             else:
-                pass
+                return res[0]['population'], res[0]['flag'], res[0]['area']
+        else:
+            return False
 
     except requests.exceptions.HTTPError as errHTTP:
         print(errHTTP)
@@ -53,16 +76,6 @@ def api_get(country_name):
         print(errReqExceptions)
 
 
-class Country():
-    def __init__(self, name, totalcases, deaths) -> None:
-        self.name = name
-        self.totalcases = totalcases
-        self.deaths = deaths
-
-    def display(self):
-        return self.name, self.totalcases, self.deaths
-
-
 def find_country_data():
     try:
         country_totalcases_found = WebDriverWait(driver, 10).until(
@@ -70,7 +83,6 @@ def find_country_data():
         )
 
         array = []
-        countries_list = []
 
         for country in country_totalcases_found:
             array.append(country.text)
@@ -78,22 +90,39 @@ def find_country_data():
         chunks = [array[x:x+6] for x in range(0, len(array), 6)]
         counter = 0
         for i in chunks:
-            country = Country(i[0], i[1], i[5])
-            countries_list.append(country)
-            counter += 1
-            print(api_get(i[0]))
-            # print(i[0])
+            api_object = api_get(i[0])
+
+            if api_get(i[0]):
+                document_country = {
+                    'id': i[0] + '_' + str(counter),
+                    'name': i[0],
+                    'population': api_object[0],
+                    'flag': api_object[1],
+                    'area': api_object[2]
+                }
+
+                document_covid_cases = {
+                    'id': i[0] + '_' + str(counter),
+                    'country_name': i[0],
+                    'total_cases': i[1],
+                    'new_cases': i[2],
+                    'total_deaths': i[5]
+                }
+
+                insert_documents_into_countries_country(document_country)
+
+                insert_documents_into_countries_covid_cases(
+                    document_covid_cases)
+
+                print(document_country)
+                print(document_covid_cases)
+                print()
+                counter += 1
 
         print(f'Number of scrapped countries: {str(counter)}.')
-
-        # for country in countries_list:
-        #     print(country.display())
 
     finally:
         driver.quit()
 
 
-# for country in find_country_data():
-#     api_get(country[0])
 find_country_data()
-# api_get(country_name)
