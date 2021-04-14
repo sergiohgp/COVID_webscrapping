@@ -11,6 +11,7 @@ import requests
 import pymongo
 from bson.objectid import ObjectId
 
+# Browser options
 options = Options()
 options.headless = True
 options.add_argument("--window-size=1920,1200")
@@ -38,7 +39,6 @@ def insert_documents_into_countries_country(document):
             col.delete_one({'name': document['name']})
 
         col.update_one(document, {'$set': document}, upsert=True)
-        # col.insert_one(document)
 
 
 def insert_documents_into_countries_covid_cases(document):
@@ -50,7 +50,6 @@ def insert_documents_into_countries_covid_cases(document):
             col.delete_one({'country_name': document['country_name']})
 
         col.update_one(document, {'$set': document}, upsert=True)
-        # col.insert_one(document)
 
 
 def api_get(country_name):
