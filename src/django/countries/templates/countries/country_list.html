@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country List</title>
+</head>
+
+<body>
+    {% load bootstrap4 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+
+    <h1 class="text-center my-5">Covid World Data</h1>
+
+    <a href="{% url 'add' %}" class="btn btn-primary mx-5 px-5">Add Country</a>
+
+    <div class="px-5 py-4">
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" class="text-left">Local</th>
+                    <th scope="col">Total Cases</th>
+                    <th scope="col">New Cases</th>
+                    <th scope="col">Total Deaths</th>
+                    <th scope="col">Cases/1M</th>
+                    <th scope="col">Population</th>
+                    <th scope="col">Area</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for country in country_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td class="text-left"><img src="{{ country.flag }}" height="20" width="20" class="mr-2">
+                        {{ country.name }}</td>
+                    <td>{{ country.total_cases }}</td>
+                    <td>{{ country.new_cases }}</td>
+                    <td>{{ country.total_deaths }}</td>
+                    <td>{{ country.cases_milion }}</td>
+                    <td>{{ country.population }}</td>
+                    <td>{{ country.area }}</td>
+                    <td><a href="{% url 'edit' country.id %}" class="text-info">Edit</a></td>
+                    <td><a href="{% url 'delete' country.id %}" class="text-danger">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
