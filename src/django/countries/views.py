@@ -126,7 +126,6 @@ def country_update(req):
     if req.method == 'POST':
         form = CountryForm(req.POST)
         if form.is_valid():
-            print("WORKINGGGG!!!!**")
             id = form.cleaned_data['id']
             name = form.cleaned_data['name']
             population = form.cleaned_data['population']
