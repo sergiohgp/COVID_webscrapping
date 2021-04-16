@@ -1,8 +1,8 @@
 class Country():
-    def __init__(self, name, totalcases, deaths) -> None:
+    def __init__(self, name, total_cases, total_deaths) -> None:
         self.name = name
-        self.totalcases = totalcases
-        self.deaths = deaths
+        self.total_cases = total_cases
+        self.total_deaths = total_deaths
 
     def display(self):
-        return self.name, self.totalcases, self.deaths
+        return self.name, self.total_cases, self.total_deaths

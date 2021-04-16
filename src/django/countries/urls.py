@@ -8,5 +8,6 @@ urlpatterns = [
     path('country/add/', views.country_add, name='add'),
     path('insert/', views.country_insert, name='insert'),
     path('update/', views.country_update, name='update'),
+    path('delete_all/', views.delete_all, name='delete_all'),
     path('delete/<str:id>/', views.country_delete, name='delete'),
 ]

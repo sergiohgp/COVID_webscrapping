@@ -20,7 +20,10 @@
 
     <h1 class="text-center my-5">Covid World Data</h1>
 
-    <a href="{% url 'add' %}" class="btn btn-primary mx-5 px-5">Add Country</a>
+    <div class="d-flex flex-row justify-content-between">
+        <a href="{% url 'add' %}" class="btn btn-primary mx-5 px-5">Add Country</a>
+        <a href="{% url 'delete_all' %}" class="text-danger mx-5 px-5 flex-row-reverse">Delete All</a>
+    </div>
 
     <div class="px-5 py-4">
         <table class="table text-center">

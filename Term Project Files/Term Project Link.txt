@@ -1,0 +1,3 @@
+Github link to the project:
+
+https://github.com/sergiohgp/COVID_webscrapping.git

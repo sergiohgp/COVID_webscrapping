@@ -29,6 +29,7 @@ if client:
     DB = client['termproject']
 
 
+#  Author: Sergio Pereira
 def insert_documents_into_countries_country(document):
     col = DB['countries_country']
     if col:
@@ -39,6 +40,7 @@ def insert_documents_into_countries_country(document):
         col.update_one(document, {'$set': document}, upsert=True)
 
 
+#  Author: Tiago Soriano
 def insert_documents_into_countries_covid_cases(document):
     col = DB['countries_covid_cases']
     if col:

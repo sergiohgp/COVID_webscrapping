@@ -14,6 +14,7 @@ if client:
 # Create your views here.
 
 
+# Author: Tiago Soriano
 def country_list(req):
     country = Country.objects.all()
     covid_cases = Covid_Cases.objects.all()
@@ -30,7 +31,8 @@ def country_list(req):
                     'area': i.area,
                     'population': i.population,
                     'total_cases': j.total_cases,
-                    'cases_milion': str(round((float(1000000) * float(str(j.total_cases).replace(',', '')))/float(str(i.population).replace(',', '')), 2)),
+                    'cases_milion': str(round((float(1000000) * float(str(j.total_cases)
+                                                                      .replace(',', '')))/float(str(i.population).replace(',', '')), 2)),
                     'new_cases': j.new_cases,
                     'total_deaths': j.total_deaths,
                 })
@@ -38,6 +40,8 @@ def country_list(req):
     context = {
         'country_list': country_list
     }
+
+    # print('The data was successfuly retrieved!')
 
     return render(req, 'countries/country_list.html', context)
 
@@ -68,6 +72,19 @@ def country_add(req):
     return render(req, 'countries/add_country.html')
 
 
+# Author: Tiago Soriano
+def delete_document(col, id):
+    # print('The data was successfuly deleted!')
+    return col.delete_one({'id': id})
+
+
+# Author: Sergio Pereira
+def update_document(col, document):
+    # print('The data was successfuly updated!')
+    return col.update_one(document, {'$set': document}, upsert=True)
+
+
+# Author: Sergio Pereira
 def country_insert(req):
     if req.method == 'POST':
         form = CountryForm(req.POST)
@@ -101,19 +118,23 @@ def country_insert(req):
             if col:
                 document_exists = col.find_one({'id': id})
                 if document_exists:
-                    col.delete_one({'id': id})
+                    delete_document(col, id)
+                    # col.delete_one({'id': id})
 
-                col.update_one(country_document, {
-                               '$set': country_document}, upsert=True)
+                update_document(col, country_document)
+                # col.update_one(country_document, {
+                #                '$set': country_document}, upsert=True)
 
             col = DB['countries_covid_cases']
             if col:
                 document_exists = col.find_one({'id': id})
                 if document_exists:
-                    col.delete_one({'id': id})
+                    delete_document(col, id)
+                    # col.delete_one({'id': id})
 
-                col.update_one(covid_cases_document, {
-                               '$set': covid_cases_document}, upsert=True)
+                update_document(col, covid_cases_document)
+                # col.update_one(covid_cases_document, {
+                #                '$set': covid_cases_document}, upsert=True)
 
             return HttpResponseRedirect('/')
     else:
@@ -189,5 +210,17 @@ def country_delete(req, id):
         document_exists = col.find_one({'id': id})
         if document_exists:
             col.delete_one({'id': id})
+
+    return HttpResponseRedirect('/')
+
+
+def delete_all(req):
+    col = DB['countries_country']
+    if col:
+        col.delete_many({})
+
+    col = DB['countries_covid_cases']
+    if col:
+        col.delete_many({})
 
     return HttpResponseRedirect('/')
