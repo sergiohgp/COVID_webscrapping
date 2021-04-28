@@ -27,7 +27,7 @@
 
 # :pushpin: Table of Contents
 
-* [About the project](#automation)
+* [About the project](#haircut-about-the-project)
 * [Technologies](#rocket-technologies)
 * [Getting Started](#checkered_flag-getting-started)
 * [How to contribute](#thinking-how-to-contribute)
@@ -36,7 +36,7 @@
 
 
 
-# :automation: About the project
+# :haircut: About the project
 
 This api provides everything needed to organize appointments between the barbers and customers.
 
