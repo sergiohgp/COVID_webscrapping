@@ -27,7 +27,7 @@
 
 # :pushpin: Table of Contents
 
-* [About the project](#haircut-about-the-project)
+* [About the project](#robot-about-the-project)
 * [Technologies](#rocket-technologies)
 * [Getting Started](#checkered_flag-getting-started)
 * [How to contribute](#thinking-how-to-contribute)
@@ -36,87 +36,62 @@
 
 
 
-# :haircut: About the project
+# :robot: About the project
 
-This api provides everything needed to organize appointments between the barbers and customers.
+This automation program uses webscraping to get worldwide COVID data and display it in a Django web application.
 
-Customers can choose the best time available to them.
-
-Providers can see all their appointments, manage the times, also see if one client canceled the schedule.
-
-To see the **web client**, click here: [GoBarber Web](https://github.com/sergiohgp/GoStack_GoBarber_Web)<br />
-To see the **mobile client**, click here: [GoBarber Mobile](https://github.com/sergiohgp/GoStack_GoBarber_Mobile)
+The data can be edited or even added.
 
 # :rocket: Technologies
 
-Technologies that I used to develop this API
+Technologies that I used to develop this Automation
 
-- [Node.js](https://nodejs.org/en/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Express](https://expressjs.com/pt-br/)
-- [Multer](https://github.com/expressjs/multer)
-- [TypeORM](https://typeorm.io/#/)
-- [JWT-token](https://jwt.io/)
-- [uuid v4](https://github.com/thenativeweb/uuidv4/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Date-fns](https://date-fns.org/)
-- [Jest](https://jestjs.io/)
-- [SuperTest](https://github.com/visionmedia/supertest)
-- [Husky](https://github.com/typicode/husky)
-- [Commitlint](https://github.com/conventional-changelog/commitlint)
-- [Commitizen](https://github.com/commitizen/cz-cli)
+
+
+- [Python](https://www.python.org)
+- [Selinium](https://www.selenium.dev/documentation/en/)
+- [Django](https://docs.djangoproject.com/en/3.2/)
+- [MongoDB](https://docs.mongodb.com)
 
 
 # :checkered_flag: Getting Started
 
-Import the `Insomnia.json` on Insomnia App or click on [Run in Insomnia](#insomniaButton) button
-
 ### Requirements
 
-- [Node.js](https://nodejs.org/en/)
-- [Yarn](https://classic.yarnpkg.com/) or [npm](https://www.npmjs.com/)
-- One instance of [PostgreSQL](https://www.postgresql.org/)
+- [Selinium](https://www.selenium.dev/documentation/en/)
+- [Python](https://www.python.org)
+- [MongoDB](https://docs.mongodb.com)
 
-> PS: I recommend using docker
+> PS: I recommend using a virtual environment
 
 **Clone the project and access the folder**
 
 ```bash
-$ git clone https://github.com/sergiohgp/GoStack_GoBarber.git && cd GoStack_GoBarber
+$ git clone https://github.com/sergiohgp/COVID_webscrapping.git && cd COVID_webscrapping
 ```
 
 **Follow the steps below**
 
 ```bash
 # Install the dependencies
-$ yarn
+$ python -m pip intall selenium
+$ python -m pip intall django
+$ python -m pip intall pymongo
 
 # Make a copy of '.env.example' to '.env'
 # and set with YOUR environment variables.
-# The aws variables do not need to be filled for dev environment
 $ cp .env.example .env
 
-# Create the instance of postgreSQL using docker
-$ docker run --name gobarber-postgres -e POSTGRES_USER=docker \
-              -e POSTGRES_DB=gobarber -e POSTGRES_PASSWORD=docker \
-              -p 5432:5432 -d postgres
+# Run the webscraping main file to get the data from google website and populate the database
+$ cd src/webscraping
+$ python main.py
 
-# Create the instance of mongoDB using docker
-$ docker run --name gobarber-mongodb -p 27017:27017 -d -t mongo
+# Run the application server to start Django app
+$ cd ..
+$ cd django
+$ python manage.py runserver
 
-# Create the instance of redis using docker
-$ docker run --name gobarber-redis -p 6379:6379 -d -t redis:alpine
-
-# Make a copy of 'ormconfig.example.json' to 'ormconfig.json'
-# and set the values, if they are not filled,
-# to connect with docker database containers
-$ cp ormconfig.example.json ormconfig.json
-
-# Once the services are running, run the migrations
-$ yarn typeorm migration:run
-
-# To finish, run the api service
-$ yarn dev:server
+# Go to the browser and input the url of the port from django server
 
 # Well done, project is started!
 ```
@@ -129,14 +104,14 @@ $ yarn dev:server
 # Fork using GitHub official command line
 # If you don't have the GitHub CLI, use the web site to do that.
 
-$ gh repo fork sergiohgp/GoStack_GoBarber
+$ gh repo fork sergiohgp/COVID_webscrapping
 ```
 
 **Follow the steps below**
 
 ```bash
 # Clone your fork
-$ git clone your-fork-url && cd GoStack_GoBarber
+$ git clone your-fork-url && cd COVID_webscrapping
 
 # Create a branch with your feature
 $ git checkout -b my-feature
@@ -152,14 +127,14 @@ After your pull request is merged, you can delete your branch
 
 # :hammer: Issues
 
-Feel free to file a new issue with a respective title and description on the [GoBarber-api](https://github.com/sergiohgp/GoStack_GoBarber/issues) repository. 
+Feel free to file a new issue with a respective title and description on the [GoBarber-api](https://github.com/sergiohgp/COVID_webscrapping/issues) repository. 
 If you already found a solution to your problem, **i would appreciate to review your pull request**!
 
 
 # :book: License
 
 Released in 2020.
-This project is under the [MIT license](https://github.com/sergiohgp/GoStack_GoBarber/blob/master/LICENSE).
+This project is under the [MIT license](https://github.com/sergiohgp/COVID_webscrapping/blob/master/LICENSE).
 
 ---
 
