@@ -27,7 +27,7 @@
 
 # :pushpin: Table of Contents
 
-* [About the project](#automation-about-the-project)
+* [About the project](#automation)
 * [Technologies](#rocket-technologies)
 * [Getting Started](#checkered_flag-getting-started)
 * [How to contribute](#thinking-how-to-contribute)
