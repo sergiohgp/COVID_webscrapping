@@ -21,10 +21,6 @@
   <img alt="GitHub" src="https://img.shields.io/github/license/sergiohgp/GoStack_GoBarber?color=%23FF9000">
 </p>
 
-<p id="insomniaButton" align="center">
-  <a href="https://insomnia.rest/run/?label=GoStack_GoBarber&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fsergiohgp%2FGoStack_GoBarber%2Fmaster%2FInsomnia.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
-</p>
-
 # :pushpin: Table of Contents
 
 * [About the project](#robot-about-the-project)
